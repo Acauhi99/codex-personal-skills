@@ -9,6 +9,22 @@ Use esta skill para revisar, reescrever ou polir documentação técnica, README
 
 O objetivo não é “enganar detector de IA”. O objetivo é produzir documentação melhor: específica, precisa, econômica e natural.
 
+## Limiar para editar
+
+Revisar não implica editar. A revisão pode concluir que o texto já atende ao objetivo e não precisa de mudanças.
+
+Edite quando encontrar um problema concreto que afete a compreensão ou o uso do documento, como:
+
+- erro factual ou técnico;
+- contradição entre trechos ou documentos;
+- ambiguidade que possa levar o leitor a uma interpretação ou ação errada;
+- informação necessária que esteja faltando;
+- repetição que dificulte encontrar ou entender a informação.
+
+Uma preferência de estilo, uma troca possível de palavras ou uma frase que poderia soar melhor não justificam edição por si só. Faça mudanças de estilo quando o usuário pedir polimento ou quando a redação atual dificultar materialmente a compreensão. Preserve a voz do autor e não mude escopo, compromissos, datas, critérios ou planos para resolver uma inconsistência. Se a intenção não estiver clara, aponte a divergência e peça a decisão necessária.
+
+Se nenhum problema atingir esse limiar, deixe os arquivos intactos e diga que a revisão não encontrou mudanças necessárias. Não invente alterações para demonstrar trabalho. Sugestões opcionais só entram quando o usuário pedir diagnóstico ou alternativas.
+
 ## Prioridades
 
 Ao editar, siga esta ordem:
@@ -41,7 +57,7 @@ Não simplifique o vocabulário técnico correto. Simplifique a frase ao redor d
 
 ## Princípio central: informação por frase
 
-Cada frase deve justificar sua presença.
+Cada frase deve contribuir para o objetivo do texto. Use as perguntas abaixo como diagnóstico, não como motivo automático para reescrever ou cortar.
 
 Antes de manter uma frase, pergunte:
 
@@ -51,9 +67,9 @@ Antes de manter uma frase, pergunte:
 - Ela evita um erro provável?
 - Ela fornece um exemplo necessário?
 
-Se a resposta for “não” para todas, remova a frase.
+Se a resposta for “não” para todas, considere remover a frase quando ela for repetitiva, lateral ou ornamental. Não corte uma frase apenas por preferência de estilo se ela não prejudica a leitura.
 
-Não mantenha texto apenas porque ele soa bem, cria transição ou “fecha” o tópico.
+Não mantenha texto apenas porque ele soa bem, cria uma transição vazia ou “fecha” o tópico.
 
 ## Fluxo de revisão
 
@@ -436,6 +452,8 @@ Antes de responder, revise o texto com este checklist:
 ## Formato de saída
 
 Por padrão, retorne apenas o texto revisado.
+
+Se não houver mudanças que atinjam o limiar de edição, não reescreva o documento: informe que a revisão foi concluída sem alterações necessárias.
 
 Não explique cada edição, a menos que o usuário peça revisão comentada, diff, justificativas ou diagnóstico.
 
