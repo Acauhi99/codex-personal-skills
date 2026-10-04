@@ -1,112 +1,112 @@
 ---
 name: completion-gate
-description: Apply a bounded completion audit to every implementation or change before declaring it done. Verify the requested behavior in its actual system context, fix blockers, and report validation and status.
+description: Faça uma auditoria delimitada de cada implementação ou alteração antes de declará-la concluída. Verifique o comportamento no contexto real, corrija bloqueios e informe a validação e o estado.
 ---
 
-# Completion Gate
+# Critérios de conclusão
 
-Treat "done" as sufficient evidence that the requested change works safely in its actual system context. Do not optimize for theoretical perfection.
+Considere uma tarefa concluída quando houver evidências suficientes de que a alteração solicitada funciona com segurança no contexto real. Não busque perfeição teórica.
 
-## 1. Anchor the task
+## 1. Delimite a tarefa
 
-Before declaring completion, identify:
+Antes de declarar a conclusão, identifique:
 
-- the requested behavior and acceptance criteria;
-- the deliverable type and evidence level required;
-- the code, documents, and contracts directly affected;
-- relevant callers, dependencies, tests, configuration, and data flows.
+- o comportamento solicitado e os critérios de aceitação;
+- o tipo de entrega e o nível de evidência exigido;
+- o código, os documentos e os contratos diretamente afetados;
+- os chamadores, as dependências, os testes, a configuração e os fluxos de dados relevantes.
 
-If acceptance criteria are implicit, infer them from the request and existing system behavior.
+Se os critérios de aceitação estiverem implícitos, deduza-os a partir do pedido e do comportamento existente do sistema.
 
-Do not expand the task into unrelated cleanup or redesign.
+Não amplie a tarefa para incluir limpeza ou reformulação sem relação direta com o pedido.
 
-### Match verification to the deliverable
+### Ajuste a verificação à entrega
 
-Use evidence appropriate to the requested stage; passing one level does not imply the next:
+Use evidências adequadas à etapa solicitada. Passar em uma etapa não comprova as seguintes:
 
-- **Document/specification:** check source authority, traceability, cross-document consistency, completeness, links, and acceptance criteria. Runtime proof is not required unless requested.
-- **Schema/contract:** distinguish JSON syntax and schema validity from instance behavior, cross-record semantics, and adapter/runtime behavior. Verify only the layers in scope and report the rest as unverified.
-- **Implementation/integration:** verify behavior in the relevant code path and system context with permitted checks.
-- **Runtime/production:** require the requested observed evidence, such as POC results, telemetry, cost, restore, or alert behavior.
+- **Documento ou especificação:** verifique a autoridade das fontes, a rastreabilidade, a consistência entre documentos, a completude, os links e os critérios de aceitação. Não é necessário comprovar a execução, a menos que isso tenha sido solicitado.
+- **Esquema ou contrato:** diferencie a validade da sintaxe JSON do comportamento das instâncias, da semântica entre registros e do comportamento de adaptadores ou da execução. Verifique somente as camadas dentro do escopo.
+- **Implementação ou integração:** verifique o comportamento no fluxo relevante do código e no contexto do sistema.
+- **Execução ou produção:** obtenha as evidências observadas solicitadas, como resultados de POC, telemetria, custos, restauração ou comportamento de alertas.
 
-Missing downstream evidence is not a blocker for an earlier-stage deliverable unless its acceptance criteria explicitly require it.
+A falta de evidências de etapas posteriores não bloqueia uma entrega anterior, a menos que os critérios de aceitação as exijam.
 
-For multi-turn work, keep proposed, approved, implemented, and observed states distinct. Record what an approval covers; approval of a document or estimate does not authorize external changes. Preserve explicit authorization, and satisfy any repository review gate before the exact mutation.
+Em tarefas que atravessam várias interações, diferencie o que foi proposto, aprovado, implementado e observado. Registre o que cada aprovação autoriza; aprovar um documento ou uma estimativa não autoriza mudanças externas. Preserve as autorizações explícitas e cumpra qualquer etapa de revisão do repositório exigida para a alteração específica.
 
-## 2. Implement
+## 2. Implemente
 
-Make the smallest coherent change that satisfies the task and existing project conventions.
+Faça a menor alteração coerente que satisfaça a tarefa e as convenções existentes no projeto.
 
-Prefer repository-specific contracts and patterns over generic best practices.
+Prefira os contratos e padrões específicos do repositório a recomendações genéricas.
 
-## 3. Run one completion audit
+## 3. Faça uma auditoria de conclusão
 
-After implementation, perform one bounded review of the resulting change.
+Depois da implementação, faça uma revisão delimitada do resultado.
 
-Check only where relevant:
+Verifique apenas os pontos relevantes:
 
-- correctness and meaningful edge cases;
-- callers, dependencies, interfaces, state, configuration, and regressions;
-- affected security boundaries, authorization, validation, secrets, and untrusted input;
-- performance or resource impact when the changed path can materially affect scale, latency, I/O, concurrency, or memory;
-- migrations, retries, timeouts, failure handling, and operational behavior when applicable;
-- available tests, build, type checking, linting, or other project validation.
+- correção e casos-limite relevantes;
+- chamadores, dependências, interfaces, estado, configuração e regressões;
+- limites de segurança afetados, autorização, validação, segredos e entradas não confiáveis;
+- impacto em desempenho ou recursos quando a escala, a latência, I/O, concorrência ou memória puderem ser afetados materialmente;
+- migrações, novas tentativas, timeouts, tratamento de falhas e operação, quando aplicáveis;
+- testes, build, verificação de tipos, lint ou outras validações disponíveis no projeto.
 
-Follow the active instruction hierarchy and the user's authorization when choosing validations. Run only checks permitted for the task, and report relevant checks that were not run as unverified.
+Ao escolher as verificações, siga a hierarquia de instruções vigente e a autorização do usuário. Execute somente as verificações permitidas para a tarefa e informe como não verificadas as que forem relevantes, mas não executadas.
 
-A concern must have a concrete failure condition or plausible affected path. Do not create work from purely hypothetical improvements.
+Um achado precisa descrever uma condição concreta de falha ou um caminho plausível afetado. Não crie trabalho com base apenas em melhorias hipotéticas.
 
-## 4. Classify findings
+## 4. Classifique os achados
 
-A finding is a **blocker** when it can materially cause:
+Um achado é um **bloqueio** quando pode causar materialmente:
 
-- failure of an acceptance criterion;
-- incorrect behavior or regression;
-- broken integration or contract;
-- security vulnerability;
-- data loss or corruption;
-- material reliability or performance regression;
-- failure of relevant validation.
+- falha de um critério de aceitação;
+- comportamento incorreto ou regressão;
+- integração ou contrato quebrado;
+- vulnerabilidade de segurança;
+- perda ou corrupção de dados;
+- regressão relevante de confiabilidade ou desempenho;
+- falha de uma validação pertinente.
 
-Fix blockers before declaring the task done.
+Corrija os bloqueios antes de declarar a conclusão.
 
-A **non-blocking improvement** is something that could make the implementation cleaner, more general, faster, or easier to maintain without being necessary for the requested behavior or materially reducing current risk.
+Uma **melhoria não bloqueante** pode tornar a implementação mais limpa, genérica, rápida ou fácil de manter, mas não é necessária para atender ao pedido nem para reduzir materialmente o risco atual.
 
-Do not continue implementation for non-blocking improvements unless the task explicitly requires them.
+Não continue a implementação por melhorias não bloqueantes, a menos que a tarefa as exija explicitamente.
 
-## 5. Revalidate without reopening review
+## 5. Valide novamente sem reabrir a revisão
 
-After fixing a blocker, re-run the checks affected by that fix.
+Depois de corrigir um bloqueio, repita as verificações afetadas pela correção.
 
-Do not restart a broad critique of the implementation after every correction.
+Não reinicie uma crítica ampla da implementação a cada correção.
 
-Run another broad audit only if the fix materially changed the architecture, contracts, or scope. Never perform more than two broad audits for the same task.
+Faça outra auditoria ampla somente se a correção tiver alterado materialmente a arquitetura, os contratos ou o escopo. Nunca faça mais de duas auditorias amplas para a mesma tarefa.
 
-## 6. Stop condition
+## 6. Condições para encerrar
 
-Declare `DONE` when:
+Declare `DONE` quando:
 
-- the requested behavior is implemented;
-- relevant acceptance criteria are satisfied;
-- relevant permitted validation passes;
-- no known blockers remain.
+- o comportamento solicitado estiver implementado;
+- os critérios de aceitação relevantes forem atendidos;
+- as validações permitidas e pertinentes passarem;
+- não houver bloqueios conhecidos.
 
-Declare `PARTIAL` or `BLOCKED` instead when a material issue remains because of missing information, unavailable environment, external dependency, or an unresolved blocker.
+Declare `PARTIAL` ou `BLOCKED` quando restar um problema material devido à falta de informações, indisponibilidade do ambiente, dependência externa ou bloqueio não resolvido.
 
-Unavailable or disallowed validation must be reported as unverified; it must not silently be treated as passing.
+Registre como não verificada qualquer validação indisponível ou não permitida; não a trate silenciosamente como aprovada.
 
-Non-blocking improvements are not a reason to delay `DONE`.
+Melhorias não bloqueantes não justificam adiar `DONE`.
 
-## Final response
+## Relatório final
 
-Lead with a one-sentence conclusion that directly answers the user's original request and says what is now established or ready. Do not make the user infer the outcome from the status or validation details.
+Comece com uma frase que responda diretamente ao pedido original e diga o que foi estabelecido ou está pronto. Não faça o usuário deduzir o resultado a partir do estado ou dos detalhes da validação.
 
-Keep the completion report concise:
+Mantenha o relatório conciso. Inclua:
 
-- conclusion: the direct answer or outcome;
-- status: `DONE`, `PARTIAL`, or `BLOCKED`;
-- what materially changed;
-- validation performed and its result;
-- unresolved blockers or known material risks, if any.
+- conclusão: resposta direta ou resultado;
+- estado: `DONE`, `PARTIAL` ou `BLOCKED`;
+- mudanças materiais;
+- validações executadas e seus resultados;
+- bloqueios não resolvidos ou riscos materiais conhecidos, se houver.
 
-Optionally mention at most three directly relevant non-blocking improvements. Do not investigate or elaborate on them unless requested.
+Opcionalmente, mencione até três melhorias não bloqueantes diretamente relevantes. Não as investigue nem detalhe, a menos que o usuário peça.

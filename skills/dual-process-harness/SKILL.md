@@ -1,91 +1,91 @@
 ---
 name: dual-process-harness
-description: Default orchestration harness for balancing fast execution with deliberate reasoning.
+description: Coordene o trabalho entre execução rápida e análise deliberada.
 metadata:
   always_load: true
 ---
 
-# Dual-Process Harness
+# Orquestração em dois modos
 
-Use two cognitive modes for every task:
+Use dois modos cognitivos em toda tarefa:
 
-- **Fast** — default executor. Optimize for low latency, direct action, and minimal reasoning overhead.
-- **Slow** — planner/reviewer. Use when deeper reasoning, decomposition, verification, or risk analysis materially improves the result.
+- **Fast (execução rápida)** — modo padrão. Priorize resposta ágil, ação direta e raciocínio suficiente para a tarefa.
+- **Slow (análise deliberada)** — planejamento e revisão. Use quando uma análise mais profunda, decomposição, verificação ou avaliação de risco melhorar materialmente o resultado.
 
-This skill governs **orchestration only**. It must not override domain-specific skills, tool rules, safety constraints, user instructions, or existing harness policies. When another skill defines *how* a task must be performed, follow it; this skill only helps decide *how much deliberation* is needed and *who owns the work*.
+Esta skill orienta somente a orquestração. Ela não substitui instruções específicas do domínio, regras de ferramentas, restrições de segurança, instruções do usuário ou políticas de orquestração existentes. Se outra skill definir como executar uma tarefa, siga-a; esta skill ajuda a decidir quanto analisar e quem deve conduzir o trabalho.
 
-## Routing
+## Encaminhamento
 
-Start in **Fast**.
+Comece em **Fast**.
 
-Fast should handle tasks that are clear, local, reversible, deterministic, or easily verifiable.
+Use Fast quando a tarefa for clara, local, reversível, determinística ou fácil de verificar.
 
-Escalate to Slow when any of these materially apply:
+Passe para Slow quando algum destes fatores afetar materialmente o resultado:
 
-- ambiguity affects the outcome;
-- multiple valid approaches require a decision;
-- the task is multi-step or architectural;
-- failure is costly or difficult to reverse;
-- confidence is insufficient;
-- verification requires independent reasoning;
-- execution has failed or produced unexpected results.
+- a ambiguidade muda o que deve ser feito;
+- há várias abordagens válidas que exigem uma decisão;
+- a tarefa envolve várias etapas ou uma mudança arquitetural;
+- uma falha seria custosa ou difícil de reverter;
+- a confiança no resultado é insuficiente;
+- a verificação exige raciocínio independente;
+- a execução falhou ou produziu algo inesperado.
 
-Fast may:
+Fast pode:
 
-- **ACT** — execute directly;
-- **RESPOND** — answer directly;
-- **ASK** — request information genuinely required to proceed;
-- **CONSULT SLOW** — retain ownership and request analysis/review;
-- **DELEGATE TO SLOW** — transfer ownership when planning or reasoning becomes the main task.
+- **AGIR** — executar diretamente;
+- **RESPONDER** — responder sem executar ações;
+- **PERGUNTAR** — solicitar informações realmente necessárias;
+- **CONSULTAR SLOW** — manter a condução e pedir análise ou revisão;
+- **DELEGAR A SLOW** — transferir a condução quando planejamento ou análise forem a parte principal do trabalho.
 
-Slow may delegate mechanical, well-specified execution back to Fast.
+Slow pode devolver tarefas mecânicas e bem especificadas para execução em Fast.
 
-Avoid unnecessary debate between modes. Prefer handoffs with concrete questions, plans, constraints, or evidence.
+Evite debates desnecessários entre os modos. Prefira encaminhamentos com perguntas, planos, restrições ou evidências concretas.
 
-## Assessment and Decision State
+## Avaliação e estado das decisões
 
-For reviews, readiness judgments, and scores, name the subject and evidence level: document/specification, artifact/integration, or runtime/production. Assess against the requested level. Missing downstream evidence is unverified, not a defect, unless the requested criteria include it. Split dimensions when one score would mix materially different evidence.
+Em revisões, julgamentos de prontidão e avaliações, identifique o objeto avaliado e o nível de evidência: documento ou especificação, artefato ou integração, ou execução em produção. Avalie o nível solicitado. A falta de evidência de etapas posteriores significa que elas não foram verificadas; não é um defeito, a menos que os critérios as exijam. Separe dimensões quando uma única avaliação misturar evidências diferentes.
 
-For multi-turn decisions, keep a compact state of what is **proposed**, **approved**, **implemented**, **observed**, or **deferred/rejected**, and preserve the scope of each approval. Approval of a document does not authorize deployment or spending. Carry forward applicable explicit authorization, while satisfying any additional review gate for the exact mutation; review alone is not authorization.
+Em decisões que atravessam várias interações, mantenha um registro conciso do que está **proposto**, **aprovado**, **implementado**, **observado** ou **adiado/rejeitado**, e preserve o escopo de cada aprovação. Aprovar um documento não autoriza implantação ou gastos. Mantenha as autorizações explícitas aplicáveis e cumpra qualquer etapa adicional de revisão antes da ação específica; revisar não significa autorizar.
 
-## Deliberation
+## Nível de deliberação
 
-Use the minimum deliberation required by the task:
+Use o menor nível de análise suficiente:
 
-- **0 — Fast only**
-- **1 — Fast execution + Slow verification**
-- **2 — Slow planning + Fast execution + Slow verification**
-- **3 — Slow ownership + strict verification**
+- **0 — somente Fast**
+- **1 — execução em Fast + verificação em Slow**
+- **2 — planejamento em Slow + execução em Fast + verificação em Slow**
+- **3 — condução em Slow + verificação rigorosa**
 
-Increase deliberation only when uncertainty, complexity, consequence, or failed verification justifies it.
+Aumente o nível somente quando a incerteza, a complexidade, as consequências ou uma falha de verificação justificarem.
 
-## Done
+## Critérios de conclusão
 
-For non-trivial tasks, establish a compact **Done Contract** before or during execution:
+Em tarefas não triviais, defina durante o trabalho um contrato de conclusão conciso com:
 
-- goal;
-- observable completion criteria;
-- required verification;
-- evidence level required for this deliverable, without importing later-stage proof unless requested.
+- objetivo;
+- critérios de conclusão observáveis;
+- verificações necessárias;
+- nível de evidência exigido para esta entrega, sem exigir provas de etapas posteriores que não foram solicitadas.
 
-A task is done only when its completion criteria are supported by evidence.
+Considere a tarefa concluída somente quando as evidências sustentarem os critérios.
 
-Do not use agreement between Fast and Slow as proof of completion.
+Não use a concordância entre Fast e Slow como prova de conclusão.
 
-Prefer:
+Prefira:
 
-`goal → criteria → execution → verification → evidence → done`
+`objetivo → critérios → execução → verificação → evidências → conclusão`
 
-If verification fails, return to planning or execution instead of declaring completion.
+Se a verificação falhar, retome o planejamento ou a execução em vez de declarar conclusão.
 
-For implementation or change tasks, use `completion-gate` for the implementation-specific acceptance criteria and bounded audit. This harness chooses the needed deliberation and tracks evidence; do not repeat a broad review just to satisfy both skills.
+Em tarefas de implementação ou alteração, use `completion-gate` para definir os critérios específicos de aceitação e fazer a auditoria delimitada. Esta skill escolhe o nível de análise e acompanha as evidências; não repita uma revisão ampla apenas para cumprir as duas skills.
 
-## Output Closure
+## Resposta final
 
-For every non-trivial task, synthesize the evidence into a direct answer, conclusion, or recommendation to the user's original request. Lead with that conclusion and combine related findings into what they imply for the request; a list of observations or successful checks is not a conclusion. If the evidence does not support a clear conclusion, state what remains uncertain, what that prevents deciding, and the most useful next step.
+Em toda tarefa não trivial, sintetize as evidências em uma resposta, conclusão ou recomendação direta ao pedido original. Comece pela conclusão e conecte os achados ao que eles significam para o pedido; não deixe que o usuário tenha de inferir a conclusão de uma lista de observações ou verificações bem-sucedidas. Se as evidências não sustentarem uma conclusão clara, diga o que permanece incerto, o que isso impede decidir e qual é o próximo passo mais útil.
 
-For implementation or change tasks, put this conclusion in the `completion-gate` report instead of adding a separate summary.
+Em tarefas de implementação ou alteração, inclua essa conclusão no relatório de `completion-gate`, sem acrescentar um resumo separado.
 
-## Operating Principle
+## Princípio de operação
 
-**Fast drives progress. Slow is invoked when deliberation changes the expected quality of the outcome. Verification, not confidence, determines done.**
+**Fast conduz o progresso. Use Slow quando a análise mudar a qualidade esperada do resultado. As evidências, não a confiança, determinam a conclusão.**

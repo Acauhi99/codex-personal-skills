@@ -1,22 +1,22 @@
-# Codex Personal Skills
+# Skills pessoais do Codex
 
-Personal skills configured for Codex, published together for reuse and version control.
+Skills pessoais configuradas para o Codex e reunidas para reutilização e controle de versão.
 
-## Skills
+## Skills disponíveis
 
-| Skill | Purpose |
+| Skill | Descrição |
 | --- | --- |
-| [`clear-output`](skills/clear-output/SKILL.md) | Write concise, direct user-facing prose. |
-| [`dual-process-harness`](skills/dual-process-harness/SKILL.md) | Route work between fast execution and deliberate review. |
-| [`completion-gate`](skills/completion-gate/SKILL.md) | Verify changes against their acceptance criteria before calling them done. |
-| [`pr-review`](skills/pr-review/SKILL.md) | Review pull requests, preview findings, and wait for authorization before submitting. |
-| [`documentation-de-slop`](skills/documentation-de-slop/SKILL.md) | Review technical documentation for clarity, precision, and concise natural writing. |
+| [`clear-output`](skills/clear-output/SKILL.md) | Escreva respostas claras e diretas. |
+| [`dual-process-harness`](skills/dual-process-harness/SKILL.md) | Coordene a execução rápida com a análise deliberada. |
+| [`completion-gate`](skills/completion-gate/SKILL.md) | Verifique os critérios antes de declarar uma alteração concluída. |
+| [`pr-review`](skills/pr-review/SKILL.md) | Revise PRs, mostre os comentários propostos e aguarde autorização para enviá-los. |
+| [`documentation-de-slop`](skills/documentation-de-slop/SKILL.md) | Revise documentação técnica para ganhar clareza, precisão e concisão. |
 
-Each skill has its own directory and `SKILL.md`, which contains its name, description, and instructions.
+Cada skill tem seu próprio diretório e um arquivo `SKILL.md` com o nome, a descrição e as instruções.
 
-## Install in Codex
+## Instalação no Codex
 
-Codex discovers personal skills under `~/.codex/skills`. Clone this repository to a stable location, then create links from the skill directories into that directory:
+O Codex descobre skills pessoais em `~/.codex/skills`. Clone este repositório para um local estável e crie links dos diretórios das skills para esse diretório:
 
 ```sh
 git clone https://github.com/Acauhi99/codex-personal-skills.git "$HOME/dev/codex-personal-skills"
@@ -26,15 +26,15 @@ mkdir -p "$HOME/.codex/skills"
 for skill in clear-output dual-process-harness completion-gate pr-review documentation-de-slop; do
   target="$HOME/.codex/skills/$skill"
   if [ -e "$target" ] || [ -L "$target" ]; then
-    printf 'Already exists; inspect before replacing: %s\n' "$target"
+    printf 'Já existe; confira antes de substituir: %s\n' "$target"
   else
     ln -s "$PWD/skills/$skill" "$target"
   fi
 done
 ```
 
-The links use the checkout as their source. Update the skills with `git -C "$HOME/dev/codex-personal-skills" pull --ff-only`.
+Os links usam este clone como origem. Atualize as skills com `git -C "$HOME/dev/codex-personal-skills" pull --ff-only`.
 
-## License
+## Licença
 
-These skills are released under the [MIT License](LICENSE).
+Estas skills são distribuídas sob a [licença MIT](LICENSE).

@@ -1,16 +1,16 @@
 ---
 name: clear-output
-description: Write concise, direct user-facing prose while preserving task-appropriate detail.
+description: Escreva respostas claras e diretas, preservando o detalhe adequado à tarefa.
 ---
 
-# Clear Output
+# Respostas claras
 
-Answer the request first. Include context only when it explains the answer, affects a decision, or prevents a likely misunderstanding.
+Responda ao pedido primeiro. Inclua contexto apenas quando ele explicar a resposta, afetar uma decisão ou evitar um provável mal-entendido.
 
-Use plain, concrete wording. Remove filler, repetition, canned transitions, and rhetorical contrast.
+Use palavras simples e concretas. Remova enchimento, repetição, transições automáticas e contrastes retóricos.
 
-Match the artifact and preserve the depth, caveats, and exact technical details it requires. Use headings and lists only when they make information easier to retrieve.
+Adapte a resposta ao tipo de conteúdo e preserve a profundidade, as ressalvas e os detalhes técnicos exatos que ele exige. Use títulos e listas somente quando ajudarem a encontrar informações.
 
-For reviews, scores, and readiness judgments, state what is being assessed and at what evidence level. Keep design/specification quality distinct from implementation and operational proof; label observations, inferences, and unknowns. Do not lower a score for downstream evidence outside the requested scope unless end-to-end readiness is being assessed.
+Em revisões, avaliações e julgamentos de prontidão, diga o que está sendo avaliado e com base em que nível de evidência. Diferencie a qualidade do projeto ou da especificação da implementação e da operação; identifique observações, inferências e pontos desconhecidos. Não reduza uma avaliação por falta de evidências de etapas posteriores, a menos que a prontidão de ponta a ponta esteja em análise.
 
-State uncertainty and conditions precisely. Stop when the request is answered.
+Descreva incertezas e condições com precisão. Pare quando o pedido estiver respondido.
