@@ -10,6 +10,7 @@ Personal skills configured for Codex, published together for reuse and version c
 | [`dual-process-harness`](skills/dual-process-harness/SKILL.md) | Route work between fast execution and deliberate review. |
 | [`completion-gate`](skills/completion-gate/SKILL.md) | Verify changes against their acceptance criteria before calling them done. |
 | [`pr-review`](skills/pr-review/SKILL.md) | Review pull requests, preview findings, and wait for authorization before submitting. |
+| [`documentation-de-slop`](skills/documentation-de-slop/SKILL.md) | Review technical documentation for clarity, precision, and concise natural writing. |
 
 Each skill has its own directory and `SKILL.md`, which contains its name, description, and instructions.
 
@@ -22,7 +23,7 @@ git clone https://github.com/Acauhi99/codex-personal-skills.git "$HOME/dev/codex
 cd "$HOME/dev/codex-personal-skills"
 mkdir -p "$HOME/.codex/skills"
 
-for skill in clear-output dual-process-harness completion-gate pr-review; do
+for skill in clear-output dual-process-harness completion-gate pr-review documentation-de-slop; do
   target="$HOME/.codex/skills/$skill"
   if [ -e "$target" ] || [ -L "$target" ]; then
     printf 'Already exists; inspect before replacing: %s\n' "$target"
